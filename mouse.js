@@ -1,16 +1,17 @@
+import { Vector2, Vector3 } from 'three'
 import size from 'size'
 import touches from 'touches'
 const touch = touches(window, { filtered: true, preventSimulated: false })
 
 class Mouse {
     constructor(options) {
-        this.screenPosition = new THREE.Vector2(2, 2)
-        this.screenDirection = new THREE.Vector2()
-        this.screenVelocity = new THREE.Vector2()
+        this.screenPosition = new Vector2(2, 2)
+        this.screenDirection = new Vector2()
+        this.screenVelocity = new Vector2()
 
-        this.worldPosition = new THREE.Vector3()
-        this.worldDirection = new THREE.Vector3()
-        this.worldVelocity = new THREE.Vector3()
+        this.worldPosition = new Vector3()
+        this.worldDirection = new Vector3()
+        this.worldVelocity = new Vector3()
 
         this.onMove = this.onMove.bind(this)
     }

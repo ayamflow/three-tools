@@ -1,12 +1,12 @@
+import { WebGLRenderer, Object3D, Scene, PerspectiveCamera, Raycaster, PCFSoftShadowMap, Mesh, BoxBufferGeometry, MeshNormalMaterial, MeshBasicMaterial } from 'three'
 import size from 'size'
-import sniffer from 'sniffer'
 // import Stats from 'stats.js'
-import rightNow from 'right-now'
+// import rightNow from 'right-now'
 import Mouse from './mouse'
 import Uniforms from './uniforms'
+import Pipeline from './pipeline'
 import Emitter from 'tiny-emitter'
-
-const DEBUG = process.env.ENV == 'dev'
+import OrthoPass from './pipeline/ortho-pass'
 
 class Stage extends Emitter {
     constructor(){
@@ -25,7 +25,7 @@ class Stage extends Emitter {
         })
         TweenMax.set(this.el, {opacity: 0})
 
-        this.renderer = new THREE.WebGLRenderer(Object.assign({
+        this.renderer = new WebGLRenderer(Object.assign({
             canvas: this.el,
             antialias: false,
             alpha: false,
@@ -38,30 +38,31 @@ class Stage extends Emitter {
         this.pixelRatio = Math.min(options.pixelRatio || window.devicePixelRatio || 1, 2)
         this.renderer.setPixelRatio(this.pixelRatio)
 
-        // THREE.Object3D.DefaultMatrixAutoUpdate = false
+        // Object3D.DefaultMatrixAutoUpdate = false
 
-        this.scene = new THREE.Scene()
-        this.camera = new THREE.PerspectiveCamera(45, 1, 1, 10000)
+        this.scene = new Scene()
+        this.camera = new PerspectiveCamera(45, 1, 1, 10000)
         this.camera.position.z = 300
-
-        this.orthoScene = new THREE.Scene()
-        this.orthoCamera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 1, 2)
-        this.orthoCamera.position.z = 1
 
         Mouse.setCamera(this.camera)
         Mouse.bind()
-        this.raycaster = new THREE.Raycaster()
+        this.raycaster = new Raycaster()
+
+        if (options.ortho) {
+            this.ortho = new OrthoPass()
+            Pipeline.add(this.ortho)
+        }
 
         // DEBUG
-        if (DEBUG) {
-            window.stage = this
-            // let controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
-           //  this.stats = new Stats()
-           // document.body.appendChild(this.stats.domElement)
-            window.addControls = () => {
-                let controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
-            }
-        }
+        // if (DEBUG) {
+        //     window.stage = this
+        //     // let controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
+        //    //  this.stats = new Stats()
+        //    // document.body.appendChild(this.stats.domElement)
+        //     window.addControls = () => {
+        //         let controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
+        //     }
+        // }
 
         this.onResize = this.onResize.bind(this)
         this.onUpdate = this.onUpdate.bind(this)
@@ -73,7 +74,7 @@ class Stage extends Emitter {
 
         // rAF after resize
         this.rafId = -1
-        this.time = rightNow()
+        this.time = Date.now()
         this.once('resize', () => {
             this.rafId = requestAnimationFrame(this.onUpdate)
         })
@@ -81,7 +82,7 @@ class Stage extends Emitter {
 
     toggleShadows(enabled, type) {
         this.renderer.shadowMap.enabled = enabled
-        this.renderer.shadowMap.type = type || THREE.PCFSoftShadowMap
+        this.renderer.shadowMap.type = type || PCFSoftShadowMap
     }
 
     togglePostprocessing(enabled) {
@@ -101,12 +102,6 @@ class Stage extends Emitter {
 
         this.camera.aspect = width / height
         this.camera.updateProjectionMatrix()
-
-        this.orthoCamera.top = height * 0.5
-        this.orthoCamera.bottom = -height * 0.5
-        this.orthoCamera.left = -width * 0.5
-        this.orthoCamera.right = width * 0.5
-        this.orthoCamera.updateProjectionMatrix()
 
         if (this.debugs) {
             this.debugs.forEach(function(mesh, i) {
@@ -128,26 +123,16 @@ class Stage extends Emitter {
 
     onUpdate() {
         this.rafId = requestAnimationFrame(this.onUpdate)
-        let time = rightNow()
+        let time = Date.now()
         const dt = time - this.time
 
         this.emit('tick', dt)
-
-        if (!this.hasPostprocessing) {
-            this.beforeRender()
-            this.renderer.render(this.scene, this.camera)
-            this.renderOrtho()
-            this.afterRender()
-        }
-
+        Pipeline.render()
         this.time = time
     }
 
-    renderOrtho() {
-        this.renderer.autoClear = false
-        this.renderer.clearDepth()
-        this.renderer.render(this.orthoScene, this.orthoCamera)
-        this.renderer.autoClear = true
+    render() {
+        this.renderer.render(this.scene, this.camera)
     }
 
     afterRender() {
@@ -157,9 +142,9 @@ class Stage extends Emitter {
     }
 
     getDebugMesh(side = 10) {
-        return new THREE.Mesh(
-            new THREE.BoxBufferGeometry(side, side, side),
-            new THREE.MeshNormalMaterial()
+        return new Mesh(
+            new BoxBufferGeometry(side, side, side),
+            new MeshNormalMaterial()
         )
     }
 
@@ -167,9 +152,9 @@ class Stage extends Emitter {
         const side = 120
         this.debugs = this.debugs || []
 
-        let mesh = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(side, side),
-            new THREE.MeshBasicMaterial({
+        let mesh = new Mesh(
+            new PlaneBufferGeometry(side, side),
+            new MeshBasicMaterial({
                 map: texture,
                 // transparent: true
             })
@@ -177,7 +162,7 @@ class Stage extends Emitter {
         mesh.position.x = -size.width * 0.5 + side * 0.5 + side * this.debugs.length
         mesh.position.y = -size.height * 0.5 + side * 0.5
         this.debugs.push(mesh)
-        this.orthoScene.add(mesh)
+        this.ortho.add(mesh)
     }
 
     destroy() {

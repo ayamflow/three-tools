@@ -1,10 +1,10 @@
-import assets from 'lib/assets'
+import { Texture, LinearFilter, ClampToEdgeWrapping } from 'three'
 export const textureCache = {}
 
 export default function(image, params = {}) {
     let texture
     if (image instanceof Image || image instanceof HTMLVideoElement || image instanceof HTMLCanvasElement) {
-        texture = new THREE.Texture(image)
+        texture = new Texture(image)
     } else {
         // Cache
         let texture = textureCache[image]
@@ -17,20 +17,30 @@ export default function(image, params = {}) {
             texture.needsUpdate = needsUpdate
             return texture
         }
-        texture = new THREE.Texture(assets.get(image))
+        let img = new Image()
+        texture = new Texture()
+        texture.promise = new Promise((resolve, reject) => {
+            img.onload = function() {
+                img.onload = null
+                texture.image = img
+                texture.needsUpdate = true
+                resolve(texture)
+            }
+        })
     }
 
     setParams(texture, params)
-    texture.needsUpdate = true
     return texture
 }
 
 function setParams(texture, params = {}) {
     Object.assign(texture, {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        wrapS: THREE.ClampToEdgeWrapping,
-        wrapT: THREE.ClampToEdgeWrapping,
+        minFilter: LinearFilter,
+        magFilter: LinearFilter,
+        wrapS: ClampToEdgeWrapping,
+        wrapT: ClampToEdgeWrapping,
         generateMipmaps: false
     }, params)
+
+    texture.needsUpdate = true
 }

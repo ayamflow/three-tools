@@ -1,13 +1,11 @@
+import { ShaderMaterial } from 'three'
+import GUI from './gui'
 import Uniforms from './uniforms'
-// import Controlkit from 'controlkit'
-import sniffer from 'sniffer'
+// import sniffer from 'sniffer'
 
 // const GLSLIFY_REGEX = /#import ([a-zA-Z0-9_-]+) from ([a-zA-Z0-9_-]+)/g
-// const GUI = new Controlkit().addPanel()
-// if (!sniffer.isDesktop || process.env.ENV != 'dev') GUI.disable()
-// GUI.disable()
 
-export default class Shader extends THREE.ShaderMaterial {
+export default class Shader extends ShaderMaterial {
     constructor(options = {}) {
         let useGUI = options.useGUI
         delete options.useGUI
@@ -26,74 +24,19 @@ export default class Shader extends THREE.ShaderMaterial {
         }
 
         // TODO
-        // HMR?
+        // HMR? 
     }
 
     addGUI(options) {
-        return
+        GUI.addShader(this, options)
+    }
 
-        // create panel and controls to GUI
-        let panel = GUI.addGroup({
-            label: this.name || this.uuid,
-            enable: false
-        })
-
-        for (let uniform in this.uniforms) {
-            let obj = this.uniforms[uniform]
-            if (obj.useGUI === false) continue
-
-            if (obj.value === null || obj.value === undefined) continue
-
-            if (obj.value.isVector2) {
-                // 2x number
-                panel.addSubGroup()
-                    .addNumberInput(obj.value, 'x', {
-                        label: uniform + ' x'
-                    })
-                    .addNumberInput(obj.value, 'y', {
-                       label: uniform + ' y'
-                    })
-            } else if (obj.value.isVector3) {
-                // 3x number
-                panel.addSubGroup()
-                    .addNumberInput(obj.value, 'x', {
-                        label: uniform + ' x'
-                    })
-                    .addNumberInput(obj.value, 'y', {
-                       label: uniform + ' y'
-                    })
-                    .addNumberInput(obj.value, 'z', {
-                       label: uniform + ' z'
-                    })
-            } else if (obj.value.isColor) {
-                // color
-                // a bit more logic to work with THREE.Color
-
-                let color = {
-                    value: [obj.value.r, obj.value.g, obj.value.b]
-                }
-                panel.addColor(color, 'value', {
-                    label: uniform,
-                    colorMode: 'rgb',
-                    onChange: function() {
-                        obj.value.setRGB(color.value[0] / 256, color.value[1] / 256, color.value[2] / 256)
-                    }
-                })
-            } else if (obj.value === true || obj.value === false) {
-                // checkbox
-                panel.addCheckbox(obj, 'value', {
-                    label: uniform
-                })
-            } else if (typeof obj.value == 'number') {
-                // number
-                panel.addNumberInput(obj, 'value', {
-                    label: uniform,
-                    dp: 5,
-                    step: 0.001
-                })
-            }
-
-        }
+    set(key, value) {
+        this.uniforms[key].value = value
+    }
+    
+    get(key, value) {
+        return this.uniforms[key]
     }
 }
 

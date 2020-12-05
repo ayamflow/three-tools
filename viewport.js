@@ -1,3 +1,4 @@
+import { Vector3 } from 'three'
 import size from 'size'
 import stage from './stage'
 
@@ -20,7 +21,7 @@ function visibleWidthAtDepth(depth, camera) {
     return height * camera.aspect
 }
 
-const vector = new THREE.Vector3()
+const vector = new Vector3()
 function screenToWorld(x, y, camera) {
     vector.set(
         (x / size.width) * 2 - 1,

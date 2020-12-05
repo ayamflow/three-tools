@@ -1,5 +1,8 @@
-import assets from 'lib/assets'
+import { JSONLoader, BufferGeometry, BufferAttribute } from 'three'
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 const geometryCache = {}
+
+initCommon()
 
 export default function(path, cb) {
     let geometry = geometryCache[path]
@@ -13,7 +16,7 @@ export default function(path, cb) {
 
     switch(extension) {
         case 'json':
-            parser = new THREE.JSONLoader()
+            parser = new JSONLoader()
             geometry = parser.parse(data).geometry
             geometryCache[path] = geometry
             cb(geometry)
@@ -21,11 +24,17 @@ export default function(path, cb) {
 
         case 'glb':
         case 'gltf':
-            parser = new THREE.GLTFLoader()
+            parser = new GLTFLoader()
             parser.parse(data, root, (gltf) => {
                 geometryCache[path] = gltf
                 cb(gltf)
             })
             break
     }
+}
+
+function initCommon() {
+    const quad = new BufferGeometry()
+    quad.setAttribute('position', new BufferAttribute(new Float32Array([-1, -1, 3, -1, -1, 3]), 2))
+    geometryCache.quad = quad
 }

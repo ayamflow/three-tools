@@ -1,0 +1,27 @@
+{
+  "name": "three-tools",
+  "version": "1.0.0",
+  "description": "WebGL tools for use with threejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayamflow/three-tools.git"
+  },
+  "author": "Florian Morel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayamflow/three-tools/issues"
+  },
+  "homepage": "https://github.com/ayamflow/three-tools#readme",
+  "dependencies": {
+    "right-now": "^1.0.0",
+    "size": "github:ayamflow/size",
+    "sniffer": "github:ayamflow/sniffer",
+    "three": "^0.123.0",
+    "tiny-emitter": "^2.1.0",
+    "touches": "^1.2.2"
+  }
+}

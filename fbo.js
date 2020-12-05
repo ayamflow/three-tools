@@ -1,26 +1,26 @@
+import { FloatType, HalfFloatType, DataTexture, NearestFilter, WebGLRenderTarget, PlaneBufferGeometry, Scene, Mesh, OrthographicCamera, RGBAFormat } from 'three'
 import Shader from './shader'
 import stage from './stage'
 import Uniforms from './uniforms'
 import sniffer from 'sniffer'
 import size from 'size'
-const glslify = require('glslify')
 
 export default class FBO {
     constructor(options = {}) {
-        const format = options.format || THREE.RGBAFormat
+        const format = options.format || RGBAFormat
         const type = FBO.getType(stage.renderer)
 
         this.rt1 = createRenderTarget(options.size, type, format)
         this.rt2 = this.rt1.clone()
 
-        this.scene = new THREE.Scene()
-        this.camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 1, 2)
+        this.scene = new Scene()
+        this.camera = new OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 1, 2)
         this.camera.position.z = 1
 
         let defaultPositionTexture = options.defaultPositionTexture || FBO.getRandomDataTexture(options.size, format, type)
 
-        this.quad = new THREE.Mesh(
-            new THREE.PlaneBufferGeometry(1, 1),
+        this.quad = new Mesh(
+            new PlaneBufferGeometry(1, 1),
             new Shader({
                 name: 'FBO',
                 uniforms: Uniforms.merge({}, options.uniforms || {}, {
@@ -59,11 +59,11 @@ export default class FBO {
 }
 
 function createRenderTarget(size, type, format) {
-    return new THREE.WebGLRenderTarget(size, size, {
+    return new WebGLRenderTarget(size, size, {
         type,
         format,
-        minFilter: THREE.NearestFilter,
-        magFilter: THREE.NearestFilter,
+        minFilter: NearestFilter,
+        magFilter: NearestFilter,
         depthBuffer: false,
         stencilBuffer: false,
         generateMipmaps: false
@@ -87,9 +87,9 @@ Object.assign(FBO, {
             dataArray[i * 4 + 3] = 0
         }
 
-        let dataTexture = new THREE.DataTexture(dataArray, size, size, format || THREE.RGBAFormat, type || THREE.FloatType)
-        dataTexture.minFilter = THREE.NearestFilter
-        dataTexture.magFilter = THREE.NearestFilter
+        let dataTexture = new DataTexture(dataArray, size, size, format || RGBAFormat, type || FloatType)
+        dataTexture.minFilter = NearestFilter
+        dataTexture.magFilter = NearestFilter
         dataTexture.needsUpdate = true
 
         return dataTexture
@@ -97,11 +97,11 @@ Object.assign(FBO, {
 
     getType: function(renderer) {
         const gl = renderer.context
-        let type = THREE.FloatType
+        let type = FloatType
         let ext = gl.getExtension('OES_texture_half_float')
         gl.getExtension('OES_texture_half_float_linear')
         if (sniffer.isIos && ext) {
-            type = THREE.HalfFloatType
+            type = HalfFloatType
         }
 
         return type

@@ -1,3 +1,4 @@
+import { Vector3 } from 'three'
 import size from 'size'
 import stage from './stage'
 import Mouse from './mouse'
@@ -23,7 +24,7 @@ class Uniforms {
             useGUI: false
         })
         this.add('resolution', {
-            value: new THREE.Vector3(size.width, size.height, size.width / size.height),
+            value: new Vector3(size.width, size.height, size.width / size.height),
             useGUI: false
         })
     }
