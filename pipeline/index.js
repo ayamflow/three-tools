@@ -1,7 +1,7 @@
 import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, ShaderMaterial } from 'three'
 import size from 'size'
-import stage from '../stage'
-import getGeometry from '../get-geometry'
+import { stage } from '../stage'
+import { getGeometry } from '../get-geometry'
 
 class Pipeline {
     constructor() {
@@ -23,12 +23,10 @@ class Pipeline {
 
         let shader = new ShaderMaterial({
             vertexShader: `
-                attribute vec2 position;
                 void main() {
-                    gl_position = vec4(position, 0.0, 1.0);
+                    gl_Position = vec4(position.xy, 0.0, 1.0);
                 }`,
             fragmentShader: `
-                precision highp float;
                 void main() {
                     gl_FragColor = vec4(0.2, 0.6, 0.8, 1.0);
                 }`
@@ -41,12 +39,12 @@ class Pipeline {
     }
     
     addPass(pass) {
-        passes.push(pass)
+        this.passes.push(pass)
         return pass
     }
     
     removePass(pass) {
-        passes.splice(passes.indexOf(pass), 1)
+        this.passes.splice(this.passes.indexOf(pass), 1)
     }
 
     getRT() {
@@ -56,7 +54,7 @@ class Pipeline {
     }
     
     renderPasses() {
-        passes.forEach(pass => pass.render(stage.renderer))
+        this.passes.forEach(pass => pass.render(stage.renderer))
     }
 
     finalRender() {
@@ -69,11 +67,11 @@ class Pipeline {
         this.renderPasses()
         // stage.renderer.setRenderTarget(this.getRT())
         stage.render()
-        stage.renderOrtho()
+        // stage.renderOrtho()
         // stage.renderer.setRenderTarget(null)
         this.finalRender()
         stage.afterRender()
     }
 }
 
-export default new Pipeline()
+export const pipeline = new Pipeline()

@@ -1,6 +1,6 @@
 import { Scene } from 'three'
 
-export default class PipelinePass extends Scene {
+export class PipelinePass extends Scene {
     constructor() {
         super()
     }

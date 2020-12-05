@@ -1,6 +1,6 @@
-import { Vector3 } from 'three'
+import { Vector2, Vector3 } from 'three'
 import size from 'size'
-import stage from './stage'
+import { stage } from './stage'
 
 // https://discourse.threejs.org/t/functions-to-calculate-the-visible-width-height-at-a-given-z-depth-from-a-perspective-camera/269
 function visibleHeightAtDepth(depth, camera) {
@@ -44,7 +44,8 @@ function worldToScreen(object, camera) {
     vector.setFromMatrixPosition(object.matrixWorld)
     vector.project(camera)
 
-    let bufferSize = stage.renderer.getDrawingBufferSize()
+    let bufferSize = new Vector2()
+    stage.renderer.getDrawingBufferSize(bufferSize)
     let halfWidth = bufferSize * 0.5
     let halfHeight = canvasHeight * 0.5
 
@@ -55,7 +56,7 @@ function worldToScreen(object, camera) {
     return vector.clone()
 }
 
-export default {
+export {
     visibleHeightAtDepth,
     visibleWidthAtDepth,
     screenToWorld,

@@ -56,4 +56,4 @@ class Mouse {
     }
 }
 
-export default new Mouse()
+export const mouse = new Mouse()

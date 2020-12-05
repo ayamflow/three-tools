@@ -1,8 +1,8 @@
 import { Scene, OrthographicCamera } from 'three'
-import Pass from './pass'
+import { PipelinePass as Pass } from './pass'
 import size from 'size'
 
-export default class OrthoPass extends Pass {
+export class OrthoPass extends Pass {
     constructor() {
         super()
         this.scene = new Scene()

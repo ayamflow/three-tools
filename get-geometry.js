@@ -1,10 +1,10 @@
 import { JSONLoader, BufferGeometry, BufferAttribute } from 'three'
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 const geometryCache = {}
 
 initCommon()
 
-export default function(path, cb) {
+export function getGeometry(path, cb) {
     let geometry = geometryCache[path]
     if (geometry) return geometry
 

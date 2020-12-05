@@ -1,11 +1,11 @@
 import { FloatType, HalfFloatType, DataTexture, NearestFilter, WebGLRenderTarget, PlaneBufferGeometry, Scene, Mesh, OrthographicCamera, RGBAFormat } from 'three'
-import Shader from './shader'
-import stage from './stage'
-import Uniforms from './uniforms'
+import { Shader } from './shader'
+import { stage } from './stage'
+import { uniforms as Uniforms } from './uniforms'
 import sniffer from 'sniffer'
 import size from 'size'
 
-export default class FBO {
+export class FBO {
     constructor(options = {}) {
         const format = options.format || RGBAFormat
         const type = FBO.getType(stage.renderer)

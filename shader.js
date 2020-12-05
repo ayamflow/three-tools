@@ -1,11 +1,11 @@
 import { ShaderMaterial } from 'three'
 import GUI from './gui'
-import Uniforms from './uniforms'
+// import Uniforms from './uniforms'
 // import sniffer from 'sniffer'
 
 // const GLSLIFY_REGEX = /#import ([a-zA-Z0-9_-]+) from ([a-zA-Z0-9_-]+)/g
 
-export default class Shader extends ShaderMaterial {
+export class Shader extends ShaderMaterial {
     constructor(options = {}) {
         let useGUI = options.useGUI
         delete options.useGUI

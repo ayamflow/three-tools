@@ -1,7 +1,7 @@
-import { Vector3 } from 'three'
+import { Vector2, Vector3 } from 'three'
 import size from 'size'
-import stage from './stage'
-import Mouse from './mouse'
+import { stage } from './stage'
+import { mouse as Mouse } from './mouse'
 
 class Uniforms {
     constructor() {
@@ -36,7 +36,8 @@ class Uniforms {
     }
 
     resize() {
-        let bufferSize = stage.renderer.getDrawingBufferSize()
+        let bufferSize = new Vector2()
+        stage.renderer.getDrawingBufferSize(bufferSize)
         this.uniforms.resolution.value.set(bufferSize.width, bufferSize.height, bufferSize.width / bufferSize.height)
         // this.uniforms.resolution.value.set(width, height, width / height)
     }
@@ -82,4 +83,4 @@ class Uniforms {
     }
 }
 
-export default new Uniforms()
+export const uniforms = new Uniforms()

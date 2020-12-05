@@ -1,7 +1,7 @@
 import { Texture, LinearFilter, ClampToEdgeWrapping } from 'three'
 export const textureCache = {}
 
-export default function(image, params = {}) {
+export function getTexture(image, params = {}) {
     let texture
     if (image instanceof Image || image instanceof HTMLVideoElement || image instanceof HTMLCanvasElement) {
         texture = new Texture(image)

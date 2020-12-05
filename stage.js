@@ -2,11 +2,11 @@ import { WebGLRenderer, Object3D, Scene, PerspectiveCamera, Raycaster, PCFSoftSh
 import size from 'size'
 // import Stats from 'stats.js'
 // import rightNow from 'right-now'
-import Mouse from './mouse'
-import Uniforms from './uniforms'
-import Pipeline from './pipeline'
+import { mouse as Mouse } from './mouse'
+import { uniforms as Uniforms } from './uniforms'
+import { pipeline as Pipeline } from './pipeline'
 import Emitter from 'tiny-emitter'
-import OrthoPass from './pipeline/ortho-pass'
+import { OrthoPass } from './pipeline/ortho-pass'
 
 class Stage extends Emitter {
     constructor(){
@@ -23,7 +23,6 @@ class Stage extends Emitter {
             height: '100%',
             zIndex: 5
         })
-        TweenMax.set(this.el, {opacity: 0})
 
         this.renderer = new WebGLRenderer(Object.assign({
             canvas: this.el,
@@ -171,4 +170,4 @@ class Stage extends Emitter {
     }
 }
 
-export default new Stage()
+export const stage = new Stage()
