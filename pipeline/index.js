@@ -37,10 +37,10 @@ export class Pipeline {
         let shader = new ScreenShader({
             tMap: {value: this.rtOut.texture}
         })
-        this.quad = new Mesh(geometry, shader)
-        this.quad.frustumCulled = false
+        let quad = new Mesh(geometry, shader)
+        quad.frustumCulled = false
         this.screenScene = new Scene()
-        this.screenScene.add(this.quad)
+        this.screenScene.add(quad)
     }
     
     addPass(pass) {
@@ -53,15 +53,22 @@ export class Pipeline {
     }
     
     render() {
+        let renderedToScreen = false
+
         stage.renderer.setRenderTarget(this.rtOut) // TODO: use rtIn
         stage.renderer.render(this.scene, this.camera)
 
         // this.passes.forEach(pass => pass.render(stage.renderer, this.rtIn, this.rtOut))
+        for (let i = 0; i < this.passes.length; i++) {
+            let pass = this.passes[i]
+            pass.render(stage.renderer, this.rtIn, this.rtOut)
+            if (pass.renderToScreen) renderedToScreen = true
+        }
 
-        if (this.renderToScreen) {
+        // Automatic render/copy pass if none has been declared
+        if (this.renderToScreen && !renderedToScreen) {
             stage.renderer.setRenderTarget(null)
             stage.renderer.render(this.screenScene, stage.camera)
-            stage.renderOrtho()
         }
     }
 }

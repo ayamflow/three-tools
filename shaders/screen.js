@@ -17,7 +17,7 @@ export class ScreenShader extends Shader {
                     gl_FragColor.a = 1.0;
                 }`,
             uniforms: {
-                tMap: options.tMap,
+                tMap: options.tMap || { value: null },
                 resolution: Uniforms.resolution
             },
             // depthTest: options.depthTest,

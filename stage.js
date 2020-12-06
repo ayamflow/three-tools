@@ -47,6 +47,7 @@ class Stage extends Emitter {
         this.camera = new PerspectiveCamera(45, 1, 1, 1000)
         this.camera.position.z = 5
         this.scene = new RenderScene({ renderToScreen: true })
+        this.pipeline = this.scene.pipeline
         this.scene.debug() // TODO: only in debug?
 
         Mouse.setCamera(this.camera)
@@ -133,6 +134,7 @@ class Stage extends Emitter {
         // }
 
         this.scene.render()
+        this.renderOrtho()
 
         // if (this.stats) {
         //     this.stats.end()
