@@ -44,7 +44,6 @@ class Stage extends Component {
         this.camera.position.z = 5
         this.scene = new RenderScene({ renderToScreen: true })
         this.pipeline = this.scene.pipeline
-        this.scene.debug() // TODO: only in debug?
 
         Mouse.setCamera(this.camera)
         Mouse.bind()
