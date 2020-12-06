@@ -23,13 +23,11 @@ class Stage extends Component {
         this.renderer = new WebGLRenderer(Object.assign({
             canvas: this.el,
             antialias: false,
-            alpha: false,
-            preserveDrawingBuffer: true
+            alpha: options.alpha || false,
+            preserveDrawingBuffer: options.preserveDrawingBuffer || false
         }, options))
 
-        this.renderer.setClearColor(0x000000, 0)
-        // this.renderer.setClearColor(0x222222, 1)
-
+        this.renderer.setClearColor(options.clearColor || 0x000000, options.clearAlpha || 0)
         this.pixelRatio = Math.min(options.pixelRatio || window.devicePixelRatio || 1, 2)
         this.renderer.setPixelRatio(this.pixelRatio)
         Uniforms.dpr.value = this.pixelRatio
