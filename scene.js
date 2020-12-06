@@ -1,6 +1,7 @@
 import { Scene, WebGLRenderTarget, LinearFilter, RGBAFormat, DepthTexture } from 'three'
-import { stage } from './stage'
+import { stage } from './'
 import { Pipeline } from './pipeline'
+import size from 'size'
 
 export class RenderScene extends Scene {
     constructor(options = {}) {
@@ -17,14 +18,22 @@ export class RenderScene extends Scene {
             camera: this.camera,
             renderToScreen: options.renderToScreen
         })
+
+        size.addListener(this.onResize, this)
     }
 
     onResize(width, height) {
         if (this.rt) this.rt.setSize(width, height)
+        this.pipeline.setSize(width, height)
+    }
+
+    setSize(width, height) {
+        size.removeListener(this.onResize, this)
+        this.onResize(width, height)
     }
 
     initRT(options) {
-        this.rt = new WebGLRenderTarget(100, 400, {
+        this.rt = new WebGLRenderTarget(1, 1, {
             minFilter: LinearFilter,
             magFilter: LinearFilter,
             format: options.format || RGBAFormat,

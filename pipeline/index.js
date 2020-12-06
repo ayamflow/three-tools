@@ -1,9 +1,6 @@
-import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearFilter } from 'three'
 import size from 'size'
-import { stage } from '../stage'
-import { Shader } from '../shader'
-import { uniforms as Uniforms } from '../uniforms'
-import { getGeometry } from '../get-geometry'
+import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearFilter } from 'three'
+import { stage, getGeometry } from '../'
 import { ScreenShader } from '../shaders/screen'
 
 export class Pipeline {
@@ -15,12 +12,10 @@ export class Pipeline {
 
         this.initRTs(options) // TODO: only create when needed
         if (this.renderToScreen) this.initQuad()
-
-        // TODO: inherit from resize + emitter
     }
 
     initRTs(options) {
-        this.rtIn = new WebGLRenderTarget(400, 400, {
+        this.rtIn = new WebGLRenderTarget(1, 1, {
             minFilter: LinearFilter,
             magFilter: LinearFilter,
             format: options.format || RGBAFormat,
@@ -52,13 +47,17 @@ export class Pipeline {
         this.passes.splice(this.passes.indexOf(pass), 1)
     }
     
+    setSize(width, height) {
+        this.rtIn.setSize(width, height)
+        this.rtOut.setSize(width, height)
+    }
+
     render() {
         let renderedToScreen = false
 
         stage.renderer.setRenderTarget(this.rtOut) // TODO: use rtIn
         stage.renderer.render(this.scene, this.camera)
 
-        // this.passes.forEach(pass => pass.render(stage.renderer, this.rtIn, this.rtOut))
         for (let i = 0; i < this.passes.length; i++) {
             let pass = this.passes[i]
             pass.render(stage.renderer, this.rtIn, this.rtOut)

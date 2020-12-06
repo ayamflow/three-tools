@@ -1,13 +1,10 @@
 import { WebGLRenderer, Object3D, Scene, PerspectiveCamera, OrthographicCamera, Raycaster, PCFSoftShadowMap, Mesh, BoxBufferGeometry, PlaneBufferGeometry, MeshNormalMaterial, MeshBasicMaterial } from 'three'
 import size from 'size'
 // import rightNow from 'right-now'
-import { mouse as Mouse } from './mouse'
-import { uniforms as Uniforms } from './uniforms'
-import { RenderScene } from './scene'
-import Emitter from 'tiny-emitter'
+import { Component, RenderScene, mouse as Mouse, uniforms as Uniforms } from './'
 // import Stats from 'stats.js'
 
-class Stage extends Emitter {
+class Stage extends Component {
     constructor(){
         super()
     }
@@ -65,13 +62,7 @@ class Stage extends Emitter {
         //     }
         // }
 
-        this.onResize = this.onResize.bind(this)
         this.onUpdate = this.onUpdate.bind(this)
-
-        // Resize
-        size.addListener(this.onResize)
-        this.onResize(size.width, size.height)
-        Uniforms.init()
 
         // rAF after resize
         this.rafId = -1
