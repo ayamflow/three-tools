@@ -7,11 +7,11 @@ export class RenderScene extends Scene {
     constructor(options = {}) {
         super()
 
-        if (options.renderToScreen) {
+        if (!options.renderToScreen) {
             this.initRT(options)
         }
         this.camera = options.camera || stage.camera
-
+        this.pixelRatio = stage.pixelRatio
         this.pipeline = new Pipeline({
             scene: this,
             rt: this.rt,
@@ -23,8 +23,7 @@ export class RenderScene extends Scene {
     }
 
     onResize(width, height) {
-        if (this.rt) this.rt.setSize(width, height)
-        this.pipeline.setSize(width, height)
+        this.pipeline.setSize(width * this.pixelRatio, height * this.pixelRatio)
     }
 
     setSize(width, height) {
@@ -60,6 +59,7 @@ export class RenderScene extends Scene {
     }
 
     debug() {
+        if (!this.rt) return
         // stage.addDebug(this.rtIn.texture)
         stage.addDebug(this.rt.texture)
     }
