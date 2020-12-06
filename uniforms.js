@@ -23,6 +23,10 @@ class Uniforms {
             value: Mouse.worldPosition,
             useGUI: false
         })
+        this.add('dpr', {
+            value: 1,
+            useGUI: false
+        })
         this.add('resolution', {
             value: new Vector3(size.width, size.height, size.width / size.height),
             useGUI: false

@@ -32,6 +32,7 @@ class Stage extends Component {
 
         this.pixelRatio = Math.min(options.pixelRatio || window.devicePixelRatio || 1, 2)
         this.renderer.setPixelRatio(this.pixelRatio)
+        Uniforms.dpr.value = this.pixelRatio
 
         // Object3D.DefaultMatrixAutoUpdate = false
 
