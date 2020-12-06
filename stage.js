@@ -106,6 +106,8 @@ class Stage extends Emitter {
         this.camera.aspect = width / height
         this.camera.updateProjectionMatrix()
 
+        Uniforms.resize()
+
         if (this.debugs) {
             this.debugs.forEach(function(mesh, i) {
                 mesh.position.x = -width * 0.5 + 50 + 100 * i
@@ -124,6 +126,7 @@ class Stage extends Emitter {
         const dt = time - this.time
 
         this.emit('tick', dt)
+        Uniforms.update()
         this.render()
         this.time = time
     }
