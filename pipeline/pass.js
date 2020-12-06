@@ -5,7 +5,11 @@ export class PipelinePass extends Scene {
         super()
     }
 
-    render() {
+    resize(width, height) {
+
+    }
+
+    render(rtIn, rtOut) {
 
     }
 }
