@@ -47,6 +47,14 @@ export class RenderScene extends Scene {
             this.rt.depthTexture = new DepthTexture()
         }
     }
+    
+    addPass(pass) {
+        this.pipeline.addPass(pass)
+    }
+    
+    removePass(pass) {
+        this.pipeline.removePass(pass)
+    }
 
     render() {
         this.pipeline.render()
