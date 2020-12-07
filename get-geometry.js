@@ -36,5 +36,6 @@ export function getGeometry(path, cb) {
 function initCommon() {
     const quad = new BufferGeometry()
     quad.setAttribute('position', new BufferAttribute(new Float32Array([-1, -1, 3, -1, -1, 3]), 2))
+    quad.setAttribute('uv', new BufferAttribute(new Float32Array([0, 0, 2, 0, 0, 2]), 2))
     geometryCache.quad = quad
 }

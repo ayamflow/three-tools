@@ -4,16 +4,13 @@ import { uniforms as Uniforms } from '../uniforms'
 export class ScreenShader extends Shader {
     constructor(options = {}) {
         super({
-            vertexShader: `
-                void main() {
-                    gl_Position = vec4(position.xy, 0.0, 1.0);
-                }`,
+            vertexShader: Shader.quadVertexShader,
             fragmentShader: `
                 uniform sampler2D tMap;
                 uniform vec2 resolution;
+                varying vec2 vUv;
                 void main() {
-                    vec2 uv = gl_FragCoord.xy / resolution.xy;
-                    gl_FragColor = texture2D(tMap, uv);
+                    gl_FragColor = texture2D(tMap, vUv);
                     gl_FragColor.a = 1.0;
                 }`,
             uniforms: {

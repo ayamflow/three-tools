@@ -62,6 +62,14 @@ Object.assign(Shader, {
             gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
     `,
+    quadVertexShader: `
+        varying vec2 vUv;
+
+        void main() {
+            vUv = uv;
+            gl_Position = vec4(position.xy, 0.0, 1.0);
+        }
+    `,
     defaultFragmentShader: `
         varying vec2 vUv;
 
