@@ -2,6 +2,23 @@ import { Vector2, Vector3 } from 'three'
 import size from 'size'
 import { stage } from './stage'
 
+const vector = new Vector3()
+
+/**
+ * Viewport calculation utils
+ *
+ * @module Viewport
+ */
+
+
+/**
+ * Return the total height of the viewport in world units
+ *
+ * @static
+ * @param {number} depth distance of reference object
+ * @param {THREE.Camera} camera The current camera
+ * @return {number} 
+ */
 // https://discourse.threejs.org/t/functions-to-calculate-the-visible-width-height-at-a-given-z-depth-from-a-perspective-camera/269
 function visibleHeightAtDepth(depth, camera) {
     // compensate for cameras not positioned at z=0
@@ -16,12 +33,28 @@ function visibleHeightAtDepth(depth, camera) {
     return 2 * Math.tan( vFOV / 2 ) * Math.abs( depth )
 }
 
+/**
+ * Return the total width of the viewport in world units
+ *
+ * @static
+ * @param {number} depth distance of reference object
+ * @param {THREE.Camera} camera The current camera
+ * @return {number} 
+ */
 function visibleWidthAtDepth(depth, camera) {
     const height = visibleHeightAtDepth( depth, camera )
     return height * camera.aspect
 }
 
-const vector = new Vector3()
+/**
+ * Project a 2D point in screen coordinates to a 3D point against a plane
+ *
+ * @static
+ * @param {number} x The x coordinate on the screen
+ * @param {number} y The y coordinate on the screen
+ * @param {THREE.Camera} camera The current camera
+ * @return {Vector3} 
+ */
 function screenToWorld(x, y, camera) {
     vector.set(
         (x / size.width) * 2 - 1,
@@ -40,6 +73,14 @@ function screenToWorld(x, y, camera) {
     return pos
 }
 
+/**
+ * Convert an object's world coordinates (3D) into screen cordinates (2D)
+ *
+ * @static
+ * @param {Object3D} object The target object
+ * @param {THREE.Camera} camera The current camera
+ * @return {Vector3} 
+ */
 function worldToScreen(object, camera) {
     vector.setFromMatrixPosition(object.matrixWorld)
     vector.project(camera)

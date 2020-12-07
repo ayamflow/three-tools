@@ -3,12 +3,30 @@ import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearF
 import { stage, getGeometry } from '../'
 import { ScreenShader } from '../shaders/screen'
 
+/**
+ * A rendering pipeline used to apply postprocessing to a RenderTarget or to the screen
+ *
+ * @class Pipeline
+ */
 export class Pipeline {
+
+    
+    /**
+     * Creates an instance of Pipeline.
+     * @param {Scene} scene The scene to render from
+     * @param {THREE.Camera} [camera=stage.camera] The camera to render from
+     * @param {boolean} [renderToScreen=false] True to render to the screen, false to render to a RenderTarget
+     * @param {number} [format=THREE.RGBAFormat] The RenderTarget format
+     * @param {boolean} [depthBuffer=false] To enable the depthBuffer or not
+     * @param {boolean} [stencilBuffer=false] To enable the stencilBuffer or not
+     * @param {boolean} [generateMipmaps=false] To generate mipmaps for the RenderTarget
+     * @memberof Pipeline
+     */
     constructor(options = {}) {
         this.passes = []
         this.scene = options.scene
-        this.camera = options.camera
-        this.renderToScreen = options.renderToScreen
+        this.camera = options.camera || stage.camera
+        this.renderToScreen = options.renderToScreen || false
         this.resolution = new Vector2()
 
         this.initRTs(options) // TODO: only create when needed
@@ -39,16 +57,36 @@ export class Pipeline {
         this.screenScene.add(quad)
     }
     
+    /**
+     * Add a postprocessing Pass
+     *
+     * @param {Pass} pass The pass to add
+     * @return {Pass} 
+     * @memberof Pipeline
+     */
     addPass(pass) {
         this.passes.push(pass)
         pass.resize(this.resolution.width, this.resolution.height)
         return pass
     }
     
+    /**
+     * Remove a postprocessing Pass
+     *
+     * @param {Pass} pass The pass to remove
+     * @memberof Pipeline
+     */
     removePass(pass) {
         this.passes.splice(this.passes.indexOf(pass), 1)
     }
     
+    /**
+     * Resize the pipeline, its passes and any RenderTarget
+     *
+     * @param {number} width
+     * @param {number} height
+     * @memberof Pipeline
+     */
     setSize(width, height) {
         this.rtIn.setSize(width, height)
         this.rtOut.setSize(width, height)
@@ -56,6 +94,11 @@ export class Pipeline {
         this.resolution.set(width, height)
     }
 
+    /**
+     * Render the pipeline and its passes
+     *
+     * @memberof Pipeline
+     */
     render() {
         let renderedToScreen = false
         let rtIn = this.rtIn

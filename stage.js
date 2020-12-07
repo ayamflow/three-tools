@@ -4,11 +4,30 @@ import size from 'size'
 import { Component, RenderScene, mouse as Mouse, uniforms as Uniforms } from './'
 // import Stats from 'stats.js'
 
+/**
+ * Singleton holding the renderer, canvas, main scene and UI scene, and the render loop.
+ *
+ * @class Stage
+ * @hideconstructor
+ * @extends {Component}
+ */
 class Stage extends Component {
     constructor(){
         super()
     }
 
+    /**
+     * Configure and start rendering
+     *
+     * @param {HTMLCanvasElement} [options.canvas] An existing canvas element
+     * @param {boolean} [alpha=false] To use transparent renderer
+     * @param {boolean} [preserveDrawingBuffer=false] To preserve buffers until redraw
+     * @param {string} [powerPreference='high-performance'] To force chipset or discrete GPU
+     * @param {hex} [clearColor=0x000000] The default clearColor
+     * @param {number} [clearAlpha=1] The default clearAlpha
+     * @param {number} [pixelRatio=<devicePixelRatio>] The pixelRatio/dpi to use
+     * @memberof Stage
+     */
     init(options = {}) {
         this.el = options.canvas || document.createElement('canvas')
         Object.assign(this.el.style, {
@@ -41,9 +60,18 @@ class Stage extends Component {
         this.orthoCamera.position.z = 1
 
         // Main scene
+        /**
+         * @type THREE.PerspectiveCamera
+         */
         this.camera = new PerspectiveCamera(45, 1, 1, 1000)
         this.camera.position.z = 5
+        /**
+         * @type RenderScene
+         */
         this.scene = new RenderScene({ renderToScreen: true })
+        /**
+         * @type Pipeline
+         */
         this.pipeline = this.scene.pipeline
 
         Mouse.setCamera(this.camera)
@@ -72,11 +100,26 @@ class Stage extends Component {
         })
     }
 
+    /**
+     * Toggle shadows on the renderer
+     *
+     * @param {bool} enabled True to enable, false to disable
+     * @param {number} [type=THREE.PCFSoftShadowMap] The shadow type to use
+     * @memberof Stage
+     */
     toggleShadows(enabled, type) {
         this.renderer.shadowMap.enabled = enabled
         this.renderer.shadowMap.type = type || PCFSoftShadowMap
     }
 
+    /**
+     * Utility to raycast a set of objects with a given camera
+     *
+     * @param {THREE.Camera} camera The camera to use
+     * @param {Object3D[]} objects An array of objects to raycast
+     * @return {Object}
+     * @memberof Stage
+     */
     raycast(camera, objects) {
         this.raycaster.setFromCamera(Mouse.screenPosition, camera)
         if (objects.length) {
@@ -142,6 +185,13 @@ class Stage extends Component {
         this.renderer.autoClear = true
     }
 
+    /**
+     * Return a box mesh for debugging purposes
+     *
+     * @param {number} [side=10] The definition of the geometry
+     * @return {THREE.Mesh} 
+     * @memberof Stage
+     */
     getDebugMesh(side = 10) {
         return new Mesh(
             new BoxBufferGeometry(side, side, side),
@@ -149,6 +199,12 @@ class Stage extends Component {
         )
     }
 
+    /**
+     * Overlays a given texture on top of the window for debugging purposes
+     *
+     * @param {THREE.Texture} texture The texture to display
+     * @memberof Stage
+     */
     addDebug(texture) {
         const side = 120
         this.debugs = this.debugs || []
@@ -166,7 +222,13 @@ class Stage extends Component {
         this.orthoScene.add(mesh)
     }
 
+    /**
+     * Destroys the stage
+     *
+     * @memberof Stage
+     */
     destroy() {
+        // TODO: renderer, scene
         cancelRequestAnimation(this.rafId)
         size.removeListener(this.onResize)
     }

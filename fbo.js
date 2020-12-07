@@ -5,7 +5,18 @@ import { uniforms as Uniforms } from './uniforms'
 import sniffer from 'sniffer'
 import size from 'size'
 
+/**
+ * A helper class to handle FBO and GPGPU operations
+ *
+ * @class FBO
+ */
 export class FBO {
+    /**
+     * Creates an instance of FBO.
+     * @constructor
+     * @memberof FBO
+     * @param {*} [options={}]
+     */
     constructor(options = {}) {
         const format = options.format || RGBAFormat
         const type = FBO.getType(stage.renderer)

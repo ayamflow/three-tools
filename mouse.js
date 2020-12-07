@@ -3,6 +3,11 @@ import size from 'size'
 import touches from 'touches'
 const touch = touches(window, { filtered: true, preventSimulated: false })
 
+/**
+ * A singleton holding different values for the mouse in 2D and 3D
+ *
+ * @class Mouse
+ */
 class Mouse {
     constructor(options) {
         this.screenPosition = new Vector2(2, 2)

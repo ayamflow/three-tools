@@ -4,6 +4,15 @@ const geometryCache = {}
 
 initCommon()
 
+/**
+ * Convenience method for loading and retrieving geometries
+ *
+ * @module
+ * @static
+ * @param {string} path The geometry URL
+ * @param {function} cb A callback to call when loaded
+ * @return {THREE.BufferGeometry} 
+ */
 export function getGeometry(path, cb) {
     let geometry = geometryCache[path]
     if (geometry) return geometry

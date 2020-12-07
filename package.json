@@ -4,7 +4,7 @@
   "description": "WebGL tools for use with threejs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "docs": "jsdoc -c ./.jsdoc"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,9 @@
     "three": "^0.123.0",
     "tiny-emitter": "^2.1.0",
     "touches": "^1.2.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.6",
+    "jsdoc-template": "github:braintree/jsdoc-template"
   }
 }

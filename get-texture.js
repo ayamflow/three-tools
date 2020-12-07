@@ -1,6 +1,15 @@
 import { Texture, LinearFilter, ClampToEdgeWrapping } from 'three'
 export const textureCache = {}
 
+/**
+ * Convenience method for loading and retrieving textures
+ *
+ * @module
+ * @static
+ * @param {string|HTMLImageElement|HTMLCanvasElement|HTMLVideoElement} image The source image or its URL
+ * @param {Object} [params={}] The texture parameters, including wrapping and filtering
+ * @return {THREE.Texture} 
+ */
 export function getTexture(image, params = {}) {
     let texture
     if (image instanceof Image || image instanceof HTMLVideoElement || image instanceof HTMLCanvasElement) {

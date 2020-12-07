@@ -1,0 +1,14 @@
+{
+    "destination": "./docs",
+    "recurse": true,
+    "recurseDepth": 10,
+    "source": {
+        "include": ["./", "pipeline", "shaders", "gui"],
+        "includePattern": ".js?$",
+        "exclude": "node_modules"
+    },
+    "opts": {
+        "template": "./node_modules/jsdoc-template",
+        "destination": "./docs"
+    }
+}
