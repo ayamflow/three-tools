@@ -1,5 +1,5 @@
 import size from 'size'
-import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearFilter } from 'three'
+import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearFilter, Vector2 } from 'three'
 import { stage, getGeometry } from '../'
 import { ScreenShader } from '../shaders/screen'
 
@@ -9,6 +9,7 @@ export class Pipeline {
         this.scene = options.scene
         this.camera = options.camera
         this.renderToScreen = options.renderToScreen
+        this.resolution = new Vector2()
 
         this.initRTs(options) // TODO: only create when needed
         if (this.renderToScreen) this.initQuad()
@@ -40,6 +41,7 @@ export class Pipeline {
     
     addPass(pass) {
         this.passes.push(pass)
+        pass.resize(this.resolution.width, this.resolution.height)
         return pass
     }
     
@@ -50,6 +52,8 @@ export class Pipeline {
     setSize(width, height) {
         this.rtIn.setSize(width, height)
         this.rtOut.setSize(width, height)
+        this.passes.forEach(pass => pass.resize(width, height))
+        this.resolution.set(width, height)
     }
 
     render() {
