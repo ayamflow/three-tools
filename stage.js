@@ -28,8 +28,8 @@ class Stage extends Component {
             preserveDrawingBuffer: options.preserveDrawingBuffer || false
         }, options))
 
-        this.renderer.setClearColor(options.clearColor || 0x000000, options.clearAlpha || 0)
-        this.pixelRatio = Math.min(options.pixelRatio || window.devicePixelRatio || 1, 2)
+        this.renderer.setClearColor(options.clearColor || 0x000000, options.clearAlpha || 1)
+        this.pixelRatio = options.pixelRatio || window.devicePixelRatio || 1
         this.renderer.setPixelRatio(this.pixelRatio)
         Uniforms.dpr.value = this.pixelRatio
 
