@@ -54,14 +54,21 @@ export class Pipeline {
 
     render() {
         let renderedToScreen = false
+        let rtIn = this.rtIn
+        let rtOut = this.rtOut
 
-        stage.renderer.setRenderTarget(this.rtOut) // TODO: use rtIn
+        stage.renderer.setRenderTarget(this.passes.length ? this.rtIn : this.rtOut)
         stage.renderer.render(this.scene, this.camera)
 
         for (let i = 0; i < this.passes.length; i++) {
             let pass = this.passes[i]
-            pass.render(stage.renderer, this.rtIn, this.rtOut)
+            pass.render(stage.renderer, rtIn, rtOut)
             if (pass.renderToScreen) renderedToScreen = true
+            if (pass.needsSwap) {
+                let rt = rtIn
+                rtOut = rtIn
+                rtIn = rt
+            }
         }
 
         // Automatic render/copy pass if none has been declared
