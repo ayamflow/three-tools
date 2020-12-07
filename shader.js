@@ -32,7 +32,7 @@ export class Shader extends ShaderMaterial {
     }
 
     set(key, value) {
-        this.uniforms[key].value = value
+        this.uniforms[key].value = value.texture ? value.texture : value
     }
     
     get(key, value) {
