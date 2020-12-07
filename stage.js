@@ -24,6 +24,7 @@ class Stage extends Component {
             canvas: this.el,
             antialias: false,
             alpha: options.alpha || false,
+            powerPreference: options.powerPreference || 'high-performance',
             preserveDrawingBuffer: options.preserveDrawingBuffer || false
         }, options))
 
