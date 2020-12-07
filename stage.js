@@ -61,6 +61,7 @@ class Stage extends Component {
         // }
 
         this.onUpdate = this.onUpdate.bind(this)
+        this.forceResize()
 
         // rAF after resize
         this.rafId = -1

@@ -19,7 +19,9 @@ export class RenderScene extends Scene {
             renderToScreen: options.renderToScreen
         })
 
-        size.addListener(this.onResize, this)
+        this.onResize = this.onResize.bind(this)
+        size.addListener(this.onResize)
+        this.onResize(size.width, size.height)
     }
 
     onResize(width, height) {
@@ -27,7 +29,7 @@ export class RenderScene extends Scene {
     }
 
     setSize(width, height) {
-        size.removeListener(this.onResize, this)
+        size.removeListener(this.onResize)
         this.onResize(width, height)
     }
 
