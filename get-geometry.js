@@ -11,36 +11,35 @@ initCommon()
  * @module
  * @static
  * @param {string} path The geometry URL
- * @param {function} cb A callback to call when loaded
  * @return {THREE.BufferGeometry} 
  */
-export function getGeometry(path, cb) {
+export async function getGeometry(path) {
     let geometry = geometryCache[path]
     if (geometry) return geometry
 
-    let data = assets.get(path)
     let extension = path.split('.').pop()
-    let dir = path.split('/')
-    let root = process.env.paths.assetsURL + dir.slice(0, dir.length - 1).join('/') + '/'
-    let parser
+    let loader
 
-    switch(extension) {
-        case 'json':
-            parser = new JSONLoader()
-            geometry = parser.parse(data).geometry
-            geometryCache[path] = geometry
-            cb(geometry)
-            break
-
-        case 'glb':
-        case 'gltf':
-            parser = new GLTFLoader()
-            parser.parse(data, root, (gltf) => {
-                geometryCache[path] = gltf
-                cb(gltf)
-            })
-            break
-    }
+    return new Promise(async (resolve, reject) => {
+        switch(extension) {
+            case 'json':
+                throw new Error('JSON Loader is not supported anymore')
+                // let data = await fetch(path)
+                // loader = new JSONLoader()
+                // geometry = loader.parse(data).geometry
+                // geometryCache[path] = geometry
+                // resolve(geometry)
+                break
+    
+            case 'glb':
+            case 'gltf':
+                loader = new GLTFLoader().load(path, gltf => {
+                    geometryCache[path] = gltf
+                    resolve(gltf)
+                })
+                break
+        }
+    })
 }
 
 function initCommon() {
