@@ -15,6 +15,8 @@ export function getTexture(image, params = {}) {
     let texture
     if (image instanceof Image || image instanceof HTMLVideoElement || image instanceof HTMLCanvasElement) {
         texture = new Texture(image)
+        setParams(texture, params)
+        return texture
     } else {
         // Cache
         let texture = textureCache[image]
@@ -29,18 +31,19 @@ export function getTexture(image, params = {}) {
         }
         let img = new Image()
         texture = new Texture()
+        textureCache[image] = texture
+        texture.needsUpdate = false
         texture.promise = new Promise((resolve, reject) => {
             img.onload = function() {
                 img.onload = null
                 texture.image = img
-                texture.needsUpdate = true
+                setParams(texture, params)
                 resolve(texture)
             }
         })
+        img.src = image
+        return texture
     }
-
-    setParams(texture, params)
-    return texture
 }
 
 function setParams(texture, params = {}) {
