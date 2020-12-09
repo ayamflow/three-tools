@@ -1,4 +1,4 @@
-import { ShaderMaterial } from 'three'
+import { ShaderMaterial } from 'three/src/materials/ShaderMaterial'
 // import { uniforms as Uniforms} from './'
 import GUI from './gui'
 // import Uniforms from './uniforms'

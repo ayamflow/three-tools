@@ -1,5 +1,5 @@
-import { JSONLoader, BufferGeometry, BufferAttribute } from 'three'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { BufferGeometry } from 'three/src/core/BufferGeometry'
+import { BufferAttribute } from 'three/src/core/BufferAttribute'
 const geometryCache = {}
 
 initCommon()

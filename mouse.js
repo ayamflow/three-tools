@@ -1,4 +1,5 @@
-import { Vector2, Vector3 } from 'three'
+import { Vector2 } from 'three/src/math/Vector2'
+import { Vector3 } from 'three/src/math/Vector3'
 import size from 'size'
 import touches from 'touches'
 const touch = touches(window, { filtered: true, preventSimulated: false })

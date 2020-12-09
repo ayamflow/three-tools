@@ -1,5 +1,10 @@
+import { WebGLRenderTarget } from 'three/src/renderers/WebGLRenderTarget'
+import { Mesh } from 'three/src/objects/Mesh'
+import { Scene } from 'three/src/scenes/Scene'
+import { RGBAFormat, LinearFilter } from 'three/src/constants'
+import { Vector2 } from 'three/src/math/Vector2'
+
 import size from 'size'
-import { Scene, Mesh, WebGLRenderTarget, OrthographicCamera, RGBAFormat, LinearFilter, Vector2 } from 'three'
 import { stage, getGeometry } from '../'
 import { ScreenShader } from '../shaders/screen'
 

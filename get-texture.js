@@ -1,4 +1,5 @@
-import { Texture, LinearFilter, ClampToEdgeWrapping } from 'three'
+import { Texture } from 'three/src/textures/Texture'
+import { LinearFilter, ClampToEdgeWrapping } from 'three/src/constants'
 export const textureCache = {}
 
 /**

@@ -1,4 +1,6 @@
-import { Scene, Mesh, Vector2 } from 'three'
+import { Vector2 } from 'three/src/math/Vector2'
+import { Mesh } from 'three/src/objects/Mesh'
+import { Scene } from 'three/src/scenes/Scene'
 import { Shader, getGeometry, stage } from '../'
 
 /**
