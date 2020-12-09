@@ -139,7 +139,7 @@ class Stage extends Component {
      * @return {Object}
      * @memberof Stage
      */
-    raycast(camera, objects) {
+    raycast(objects, camera = this.camera) {
         this.raycaster.setFromCamera(Mouse.screenPosition, camera)
         if (objects.length) {
             return this.raycaster.intersectObjects(objects)
