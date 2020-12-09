@@ -126,5 +126,20 @@ Object.assign(Shader, {
         void main() {
             gl_FragColor = vec4(vUv, 0.0, 1.0);
         }
+    `,
+    /**
+     * @memberof Shader
+     * @type {string}
+     * @static {string} Shader.quadFragmentShader
+     */
+    quadFragmentShader: `
+        uniform sampler2D tMap;
+        uniform float uAlpha;
+        varying vec2 vUv;
+
+        void main() {
+            gl_FragColor = texture2D(tMap, vUv);
+            gl_FragColor.a *= uAlpha;
+        }
     `
 })
