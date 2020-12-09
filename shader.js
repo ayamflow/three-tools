@@ -20,15 +20,26 @@ export class Shader extends ShaderMaterial {
         // options.uniforms = options.uniforms || {}
         // options.uniforms.time = Uniforms.time
 
-        super(Object.assign({
-            vertexShader: options.vertexShader || Shader.defaultVertexShader,
-            fragmentShader: options.fragmentShader || Shader.defaultFragmentShader
-        }, {
-            // uniforms: {
-            //     time: Uniforms.time,
-            //     resolution: Uniforms.resolution,
-            // }
-        }, options))
+        if (options.extends) {
+            // let vertexShader = 
+            // super(Object.assign({
+            //     vertexShader,
+            //     fragmentShader,
+            //     uniforms,
+            //     defines
+            // }, options))
+            console.warn('[Shader] extends is not supported yet');
+        } else {
+            super(Object.assign({
+                vertexShader: options.vertexShader || Shader.defaultVertexShader,
+                fragmentShader: options.fragmentShader || Shader.defaultFragmentShader
+            }, {
+                // uniforms: {
+                //     time: Uniforms.time,
+                //     resolution: Uniforms.resolution,
+                // }
+            }, options))
+        }
 
         this.name = options.name || this.constructor.name || this.constructor.toString().match(/function ([^\(]+)/)[1]
         checkUniforms(this.name, options.uniforms)
