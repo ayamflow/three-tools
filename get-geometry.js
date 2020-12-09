@@ -1,5 +1,6 @@
 import { BufferGeometry } from 'three/src/core/BufferGeometry'
 import { BufferAttribute } from 'three/src/core/BufferAttribute'
+import { GLTFLoader } from './overrides/GLTFLoader'
 const geometryCache = {}
 
 initCommon()
