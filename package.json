@@ -17,15 +17,17 @@
   },
   "homepage": "https://github.com/ayamflow/three-tools#readme",
   "dependencies": {
-    "right-now": "^1.0.0",
+    "right-now": "^1.0.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.6",
+    "jsdoc-template": "github:braintree/jsdoc-template"
+  },
+  "pperDependencies": {
     "size": "github:ayamflow/size",
     "sniffer": "github:ayamflow/sniffer",
     "three": "^0.123.0",
     "tiny-emitter": "^2.1.0",
     "touches": "^1.2.2"
-  },
-  "devDependencies": {
-    "jsdoc": "^3.6.6",
-    "jsdoc-template": "github:braintree/jsdoc-template"
   }
 }
