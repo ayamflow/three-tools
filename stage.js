@@ -16,6 +16,7 @@ import { Component } from './component'
 import { RenderScene } from './scene'
 import { mouse as Mouse } from './mouse'
 import { uniforms as Uniforms } from './uniforms'
+import { Interaction } from './interaction'
 // import Stats from 'stats.js'
 
 /**
@@ -87,6 +88,10 @@ class Stage extends Component {
          * @type Pipeline
          */
         this.pipeline = this.scene.pipeline
+        /**
+         * @type Interaction
+         */
+        this.interaction = new Interaction()
 
         Mouse.setCamera(this.camera)
         Mouse.bind()
@@ -175,6 +180,7 @@ class Stage extends Component {
 
         this.emit('tick', dt)
         Uniforms.update()
+        this.interaction.update()
         this.render()
         this.time = time
     }
