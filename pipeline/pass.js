@@ -81,9 +81,9 @@ export class Pass extends Scene {
         renderer.render(this, this.camera)
     }
 
-    addQuad(shader) {
+    async addQuad(shader) {
         shader.uniforms.resolution = { value: this.resolution }
-        const geometry = getGeometry('quad')
+        const geometry = await getGeometry('quad')
         let quad = new Mesh(geometry, shader)
         quad.frustumCulled = false
         this.add(quad)

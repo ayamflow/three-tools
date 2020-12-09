@@ -15,7 +15,7 @@ import { ScreenShader } from '../shaders/screen'
  */
 export class Pipeline {
 
-    
+
     /**
      * Creates an instance of Pipeline.
      * @param {Scene} scene The scene to render from
@@ -50,8 +50,8 @@ export class Pipeline {
         this.rtOut = options.rt || this.rtIn.clone()
     }
 
-    initQuad() {
-        const geometry = getGeometry('quad')
+    async initQuad() {
+        const geometry = await getGeometry('quad')
 
         let shader = new ScreenShader({
             tMap: {value: this.rtOut.texture}
