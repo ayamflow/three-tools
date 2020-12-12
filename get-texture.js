@@ -2,6 +2,17 @@ import { Texture } from 'three/src/textures/Texture'
 import { LinearFilter, ClampToEdgeWrapping } from 'three/src/constants'
 export const textureCache = {}
 
+const pixel = new Image()
+pixel.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs='
+
+// TODO
+/*
+    - compressed textures
+    https://medium.com/samsung-internet-dev/using-basis-textures-in-three-js-6eb7e104447d
+
+    - image.decode
+*/
+
 /**
  * Convenience method for loading and retrieving textures
  *
@@ -30,7 +41,7 @@ export function getTexture(image, params = {}) {
             return texture
         }
         let img = new Image()
-        texture = new Texture()
+        texture = new Texture(pixel)
         textureCache[image] = texture
         texture.needsUpdate = false
         texture.promise = new Promise((resolve, reject) => {
