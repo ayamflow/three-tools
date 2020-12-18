@@ -64,6 +64,7 @@ export class RenderScene extends Scene {
             depthBuffer: options.depthBuffer,
             stencilBuffer: options.stencilBuffer,
             generateMipmaps: options.generateMipmaps || false,
+            encoding: stage.renderer.encoding
         })
 
         if (options.useDepthTexture === true) {
