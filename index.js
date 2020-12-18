@@ -12,3 +12,7 @@ export { Component } from './component'
 export * as utils from './utils'
 export { RenderScene } from './scene'
 export { ScreenShader } from './shaders/screen'
+
+export { GLTFLoader } from './overrides/GLTFLoader'
+export { OrbitControls } from './overrides/OrbitControls'
+export { RGBELoader } from './overrides/RGBELoader'
