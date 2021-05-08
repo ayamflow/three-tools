@@ -44,7 +44,7 @@ import { InterleavedBufferAttribute } from 'three/src/core/InterleavedBufferAttr
 import { Interpolant } from 'three/src/math/Interpolant'
 import { Matrix4 } from 'three/src/math/Matrix4'
 import { Sphere } from 'three/src/math/Sphere'
-import { MathUtils } from 'three/src/math/MathUtils'
+import * as MathUtils from 'three/src/math/MathUtils'
 import { LineBasicMaterial } from 'three/src/materials/LineBasicMaterial'
 import { Material } from 'three/src/materials/Material'
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial'
