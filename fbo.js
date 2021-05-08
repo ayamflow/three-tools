@@ -1,6 +1,6 @@
 import { DataTexture } from 'three/src/textures/DataTexture'
 import { WebGLRenderTarget } from 'three/src/renderers/WebGLRenderTarget'
-import { PlaneBufferGeometry } from 'three/src/geometries/PlaneBufferGeometry'
+import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry'
 import { OrthographicCamera } from 'three/src/cameras/OrthographicCamera'
 import { Mesh } from 'three/src/objects/Mesh'
 import { Scene } from 'three/src/scenes/Scene'
@@ -37,7 +37,7 @@ export class FBO {
         let defaultPositionTexture = options.defaultPositionTexture || FBO.getRandomDataTexture(options.size, format, type)
 
         this.quad = new Mesh(
-            new PlaneBufferGeometry(1, 1),
+            new PlaneGeometry(1, 1),
             new Shader({
                 name: 'FBO',
                 uniforms: Uniforms.merge({}, options.uniforms || {}, {

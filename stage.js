@@ -5,8 +5,8 @@ import { Object3D } from 'three/src/core/Object3D'
 import { Scene } from 'three/src/scenes/Scene'
 import { PCFSoftShadowMap } from 'three/src/constants'
 import { Mesh } from 'three/src/objects/Mesh'
-import { BoxBufferGeometry } from 'three/src/geometries/BoxBufferGeometry'
-import { PlaneBufferGeometry } from 'three/src/geometries/PlaneBufferGeometry'
+import { BoxGeometry } from 'three/src/geometries/BoxGeometry'
+import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry'
 import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial'
 import { MeshNormalMaterial } from 'three/src/materials/MeshNormalMaterial'
 import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer'
@@ -214,7 +214,7 @@ class Stage extends Component {
      */
     getDebugMesh(side = 10) {
         return new Mesh(
-            new BoxBufferGeometry(side, side, side),
+            new BoxGeometry(side, side, side),
             new MeshNormalMaterial()
         )
     }
@@ -230,7 +230,7 @@ class Stage extends Component {
         this.debugs = this.debugs || []
 
         let mesh = new Mesh(
-            new PlaneBufferGeometry(side, side),
+            new PlaneGeometry(side, side),
             new MeshBasicMaterial({
                 map: texture,
                 // transparent: true
