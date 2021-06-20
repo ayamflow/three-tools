@@ -13,7 +13,7 @@ initCommon()
  * @param {string} path The geometry URL
  * @return {THREE.BufferGeometry} 
  */
-export async function getGeometry(path) {
+export async function getGeometry(path, options = {}) {
     let geometry = geometryCache[path]
     if (geometry) return geometry
 
@@ -33,7 +33,11 @@ export async function getGeometry(path) {
     
             case 'glb':
             case 'gltf':
-                loader = new GLTFLoader().load(path, gltf => {
+                loader = new GLTFLoader()
+                console.log('getgeom', options);
+                // gltfpack compatibility
+                if (options.decoder) loader.setMeshoptDecoder(options.decoder)
+                loader.load(path, gltf => {
                     geometryCache[path] = gltf
                     resolve(gltf)
                 })

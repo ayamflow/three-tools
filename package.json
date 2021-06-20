@@ -2,7 +2,7 @@
   "name": "three-tools",
   "version": "1.0.0",
   "description": "WebGL tools for use with threejs",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "docs": "jsdoc -c ./.jsdoc"
   },

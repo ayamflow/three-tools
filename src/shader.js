@@ -17,10 +17,12 @@ export class Shader extends ShaderMaterial {
         let useGUI = options.useGUI
         delete options.useGUI
 
+        // TODO: this.type = constructor name
+
         // options.uniforms = options.uniforms || {}
         // options.uniforms.time = Uniforms.time
 
-        if (options.extends) {
+        // if (options.extends) {
             // let vertexShader = 
             // super(Object.assign({
             //     vertexShader,
@@ -28,9 +30,14 @@ export class Shader extends ShaderMaterial {
             //     uniforms,
             //     defines
             // }, options))
-            console.warn('[Shader] extends is not supported yet');
-        } else {
-            super(Object.assign({
+        //     console.log('[Shader] extends', options);
+        //     console.warn('[Shader] extends is not supported yet');
+
+        //     let materialName = options.extends.toString().split('(')[0].split(' ')[1]
+        // }
+        // } else {
+            super()
+            let params = Object.assign({
                 vertexShader: options.vertexShader || Shader.defaultVertexShader,
                 fragmentShader: options.fragmentShader || Shader.defaultFragmentShader
             }, {
@@ -38,8 +45,11 @@ export class Shader extends ShaderMaterial {
                 //     time: Uniforms.time,
                 //     resolution: Uniforms.resolution,
                 // }
-            }, options))
-        }
+            }, options)
+            for (let key in params) {
+                this[key] = params[key]
+            }
+        // }
 
         this.name = options.name || this.constructor.name || this.constructor.toString().match(/function ([^\(]+)/)[1]
         checkUniforms(this.name, options.uniforms)

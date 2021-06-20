@@ -2,8 +2,8 @@ import { WebGLRenderTarget } from 'three/src/renderers/WebGLRenderTarget'
 import { Scene } from 'three/src/scenes/Scene'
 import { DepthTexture } from 'three/src/textures/DepthTexture'
 import { LinearFilter, RGBAFormat } from 'three/src/constants'
-import { stage } from './'
-import { Pipeline } from './pipeline'
+import { stage } from '..'
+import { Pipeline } from '../pipeline'
 import size from 'size'
 
 /**
